@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   
   resources :about, only: [:index]
 
+  get '/signup' => 'users#new'
+  post '/users' => 'users#create'
 
   namespace :admin do
     root to: 'dashboard#show'
