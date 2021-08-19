@@ -1,0 +1,32 @@
+<section class="admin-sales-index">
+
+  <header class="page-header">
+    <h1>Admin &raquo; All Sales</h1>
+  </header>
+
+  <div class="well">
+    <%= link_to '+ New Sale', [:new, :admin, :sale], class: 'btn btn-info' %>
+  </div>
+
+  <div class="panel panel-default products">
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Start date</th>
+          <th>End date</th>
+          <th>Status</th>
+          <th>Percent off</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @sales.each do |sale| %>
+          <%= render 'sale', sale: sale %>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+
+</section>
