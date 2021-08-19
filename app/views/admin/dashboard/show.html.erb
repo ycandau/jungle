@@ -4,7 +4,13 @@
     <h1>Dashboard</h1>
   </header>
 
-  <h4>Products: <%= @products_count %></h4>
-  <h4>Categories: <%= @categories_count %></h4>
+  <h4>
+    <%= link_to 'Products:', 'admin/products#index' %>
+    <%= @products_count %>
+  </h4>
+  <h4>
+    <%= link_to 'Categories:', 'admin/categories#index' %>
+    <%= @categories_count %>
+  </h4>
   
 </section>
