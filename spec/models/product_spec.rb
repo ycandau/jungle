@@ -17,6 +17,7 @@ RSpec.describe Product, type: :model do
     it 'should not create a new product if the name is not present' do
       @category = Category.new(name: 'Test category')
       @product = Product.new(
+        name: nil,
         price_cents: 9999,
         quantity: 123,
         category: @category
@@ -29,6 +30,7 @@ RSpec.describe Product, type: :model do
       @category = Category.new(name: 'Test category')
       @product = Product.new(
         name: 'Man-bun tie',
+        price_cents: nil,
         quantity: 123,
         category: @category
       )
@@ -41,6 +43,7 @@ RSpec.describe Product, type: :model do
       @product = Product.new(
         name: 'Man-bun tie',
         price_cents: 9999,
+        quantity: nil,
         category: @category
       )
       expect(@product.valid?).to be(false)
@@ -52,6 +55,7 @@ RSpec.describe Product, type: :model do
         name: 'Man-bun tie',
         price_cents: 9999,
         quantity: 123,
+        category: nil
       )
       expect(@product.valid?).to be(false)
       expect(@product.errors[:category]).to match(["can't be blank"])
