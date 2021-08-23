@@ -47,5 +47,15 @@ RSpec.describe Product, type: :model do
       expect(@product.errors[:quantity]).to match(["can't be blank"])
     end
 
+    it 'should not create a new product if the category is not present' do
+      @product = Product.new(
+        name: 'Man-bun tie',
+        price_cents: 9999,
+        quantity: 123,
+      )
+      expect(@product.valid?).to be(false)
+      expect(@product.errors[:category]).to match(["can't be blank"])
+    end
+
   end
 end
