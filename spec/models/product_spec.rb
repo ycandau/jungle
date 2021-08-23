@@ -24,6 +24,17 @@ RSpec.describe Product, type: :model do
       expect(@product.valid?).to be(false)
       expect(@product.errors[:name]).to match(["can't be blank"])
     end
-    
+
+    it 'should not create a new product if the price is missing' do
+      @category = Category.new(name: 'Test category')
+      @product = Product.new(
+        name: 'Man-bun tie',
+        quantity: 123,
+        category: @category
+      )
+      expect(@product.valid?).to be(false)
+      expect(@product.errors[:price_cents]).to match(["is not a number"])
+    end
+
   end
 end
