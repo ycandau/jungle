@@ -149,6 +149,30 @@ RSpec.describe User, type: :model do
       expect(User.authenticate_with_credentials('___', 'sempervirens')).to be(nil)
     end
 
+    it 'should log the user in if the email includes spaces before or after' do
+      @user = User.new(
+        first_name: 'Fred',
+        last_name: 'Frum',
+        email: 'ffrum@gmail.com',
+        password: 'sempervirens',
+        password_confirmation: 'sempervirens'
+      )
+      @user.save!
+      expect(User.authenticate_with_credentials('  ffrum@gmail.com  ', 'sempervirens')).to be_truthy
+    end
+
+    it 'should log the user in if the email includes incorrectly cased characters' do
+      @user = User.new(
+        first_name: 'Fred',
+        last_name: 'Frum',
+        email: 'ffrum@gmail.com',
+        password: 'sempervirens',
+        password_confirmation: 'sempervirens'
+      )
+      @user.save!
+      expect(User.authenticate_with_credentials('FFRUM@gmail.com', 'sempervirens')).to be_truthy
+    end
+
   end
     # puts @user.errors.inspect
     # puts @user.errors.full_messages
