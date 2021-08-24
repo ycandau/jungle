@@ -133,6 +133,18 @@ RSpec.describe User, type: :model do
       expect(User.authenticate_with_credentials('ffrum@gmail.com', 'sempervirens')).to be_truthy
     end
 
+    it 'should not log the user in if the password is incorrect' do
+      @user = User.new(
+        first_name: 'Fred',
+        last_name: 'Frum',
+        email: 'ffrum@gmail.com',
+        password: 'sempervirens',
+        password_confirmation: 'sempervirens'
+      )
+      @user.save!
+      expect(User.authenticate_with_credentials('ffrum@gmail.com', 'wrong')).to be(nil)
+    end
+
   end
     # puts @user.errors.inspect
     # puts @user.errors.full_messages
