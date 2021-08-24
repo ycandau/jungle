@@ -142,7 +142,11 @@ RSpec.describe User, type: :model do
         password_confirmation: 'sempervirens'
       )
       @user.save!
-      expect(User.authenticate_with_credentials('ffrum@gmail.com', 'wrong')).to be(nil)
+      expect(User.authenticate_with_credentials('ffrum@gmail.com', '___')).to be(nil)
+    end
+
+    it 'should not log the user in if the email is not registered' do
+      expect(User.authenticate_with_credentials('___', 'sempervirens')).to be(nil)
     end
 
   end
