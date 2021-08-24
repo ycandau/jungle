@@ -8,8 +8,8 @@ RSpec.describe User, type: :model do
         first_name: 'Fred',
         last_name: 'Frum',
         email: 'ffrum@gmail.com',
-        password: 'sequoia',
-        password_confirmation: 'sequoia'
+        password: 'sempervirens',
+        password_confirmation: 'sempervirens'
       )
       expect(@user.valid?).to be(true)
     end
@@ -19,8 +19,8 @@ RSpec.describe User, type: :model do
         first_name: nil,
         last_name: 'Frum',
         email: 'ffrum@gmail.com',
-        password: 'sequoia',
-        password_confirmation: 'sequoia'
+        password: 'sempervirens',
+        password_confirmation: 'sempervirens'
       )
       expect(@user.valid?).to be(false)
       expect(@user.errors[:first_name]).to include("can't be blank")
@@ -31,8 +31,8 @@ RSpec.describe User, type: :model do
         first_name: 'Fred',
         last_name: nil,
         email: 'ffrum@gmail.com',
-        password: 'sequoia',
-        password_confirmation: 'sequoia'
+        password: 'sempervirens',
+        password_confirmation: 'sempervirens'
       )
       expect(@user.valid?).to be(false)
       expect(@user.errors[:last_name]).to include("can't be blank")
@@ -43,8 +43,8 @@ RSpec.describe User, type: :model do
         first_name: 'Fred',
         last_name: 'Frum',
         email: nil,
-        password: 'sequoia',
-        password_confirmation: 'sequoia'
+        password: 'sempervirens',
+        password_confirmation: 'sempervirens'
       )
       expect(@user.valid?).to be(false)
       expect(@user.errors[:email]).to include("can't be blank")
@@ -56,7 +56,7 @@ RSpec.describe User, type: :model do
         last_name: 'Frum',
         email: 'ffrum@gmail.com',
         password: nil,
-        password_confirmation: 'sequoia'
+        password_confirmation: 'sempervirens'
       )
       expect(@user.valid?).to be(false)
       expect(@user.errors[:password]).to include("can't be blank")
@@ -67,7 +67,7 @@ RSpec.describe User, type: :model do
         first_name: 'Fred',
         last_name: 'Frum',
         email: 'ffrum@gmail.com',
-        password: 'sequoia',
+        password: 'sempervirens',
         password_confirmation: nil
       )
       expect(@user.valid?).to be(false)
@@ -79,8 +79,8 @@ RSpec.describe User, type: :model do
         first_name: 'Fred',
         last_name: 'Frum',
         email: 'ffrum@gmail.com',
-        password: 'sequoia',
-        password_confirmation: 'epicea'
+        password: 'sempervirens',
+        password_confirmation: 'nomenclature'
       )
       expect(@user.valid?).to be(false)
       expect(@user.errors[:password_confirmation]).to include("doesn't match Password")
@@ -91,24 +91,37 @@ RSpec.describe User, type: :model do
         first_name: 'Frank',
         last_name: 'Frum',
         email: 'ffrum@gmail.com',
-        password: 'epicea',
-        password_confirmation: 'epicea'
+        password: 'nomenclature',
+        password_confirmation: 'nomenclature'
       )
       @user.save
       @user_duplicate = User.new(
         first_name: 'Fred',
         last_name: 'Frump',
         email: 'FFRUM@gmail.com',
-        password: 'sequoia',
-        password_confirmation: 'sequoia'
+        password: 'sempervirens',
+        password_confirmation: 'sempervirens'
       )      
       expect(@user_duplicate.valid?).to be(false)
       expect(@user_duplicate.errors.full_messages).to include("Email has already been taken")
+    end
+
+    it 'should not create a new user if the password is less than 10 characters long' do
+      @user = User.new(
+        first_name: 'Fred',
+        last_name: 'Frum',
+        email: 'ffrum@gmail.com',
+        password: 'abc',
+        password_confirmation: 'abc'
+      )
+      expect(@user.valid?).to be(false)
+      expect(@user.errors.full_messages[0]).to include("Password is too short")
     end
     
     # puts '-' * 32
     # puts @user.errors.inspect
     # puts @user.errors.full_messages
+    # puts '-' * 32
 
   end
 end
