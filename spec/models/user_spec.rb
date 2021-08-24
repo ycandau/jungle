@@ -85,6 +85,26 @@ RSpec.describe User, type: :model do
       expect(@user.valid?).to be(false)
       expect(@user.errors[:password_confirmation]).to include("doesn't match Password")
     end
+
+    it 'should not create a new user if the email is a duplicate' do
+      @user = User.new(
+        first_name: 'Frank',
+        last_name: 'Frum',
+        email: 'ffrum@gmail.com',
+        password: 'epicea',
+        password_confirmation: 'epicea'
+      )
+      @user.save
+      @user_duplicate = User.new(
+        first_name: 'Fred',
+        last_name: 'Frump',
+        email: 'FFRUM@gmail.com',
+        password: 'sequoia',
+        password_confirmation: 'sequoia'
+      )      
+      expect(@user_duplicate.valid?).to be(false)
+      expect(@user_duplicate.errors.full_messages).to include("Email has already been taken")
+    end
     
     # puts '-' * 32
     # puts @user.errors.inspect
