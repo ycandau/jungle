@@ -74,5 +74,21 @@ RSpec.describe User, type: :model do
       expect(@user.errors[:password_confirmation]).to include("can't be blank")
     end
 
+    it 'should not create a new user if the password confirmation does not match the password' do
+      @user = User.new(
+        first_name: 'Fred',
+        last_name: 'Frum',
+        email: 'ffrum@gmail.com',
+        password: 'sequoia',
+        password_confirmation: 'epicea'
+      )
+      expect(@user.valid?).to be(false)
+      expect(@user.errors[:password_confirmation]).to include("doesn't match Password")
+    end
+    
+    # puts '-' * 32
+    # puts @user.errors.inspect
+    # puts @user.errors.full_messages
+
   end
 end
