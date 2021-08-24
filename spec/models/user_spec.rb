@@ -94,7 +94,7 @@ RSpec.describe User, type: :model do
         password: 'nomenclature',
         password_confirmation: 'nomenclature'
       )
-      @user.save
+      @user.save!
       @user_duplicate = User.new(
         first_name: 'Fred',
         last_name: 'Frump',
@@ -117,11 +117,25 @@ RSpec.describe User, type: :model do
       expect(@user.valid?).to be(false)
       expect(@user.errors.full_messages[0]).to include("Password is too short")
     end
+  end
     
-    # puts '-' * 32
+  describe '.authenticate_with_credentials' do
+    
+    it 'should log the user in if they are registered and the password is correct' do
+      @user = User.new(
+        first_name: 'Fred',
+        last_name: 'Frum',
+        email: 'ffrum@gmail.com',
+        password: 'sempervirens',
+        password_confirmation: 'sempervirens'
+      )
+      @user.save!
+      expect(User.authenticate_with_credentials('ffrum@gmail.com', 'sempervirens')).to be_truthy
+    end
+
+  end
     # puts @user.errors.inspect
     # puts @user.errors.full_messages
     # puts '-' * 32
 
-  end
 end
