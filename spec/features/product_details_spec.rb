@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "User navigates to home page", type: :feature, js: true do
+RSpec.feature "User navigates from home page to product detail page", type: :feature, js: true do
 
   # Setup
   before :each do
@@ -17,15 +17,19 @@ RSpec.feature "User navigates to home page", type: :feature, js: true do
     end
   end
 
-  scenario "They see all products" do
+  scenario "They see the product details" do
     # Act
     visit root_path
+    
+    expect(page).to have_no_css('.product-detail')
+
+    find('.product a.btn-default', match: :first).click
 
     # Debug
     save_screenshot
 
     # Verify
-    expect(page).to have_css 'article.product', count: 10
+    expect(page).to have_css('.product-detail')
   end
 
 end
